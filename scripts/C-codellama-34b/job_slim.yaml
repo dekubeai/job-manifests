@@ -1,0 +1,46 @@
+---
+
+apiVersion: "kubeflow.org/v1"
+kind: "TFJob"
+metadata:
+  name: "c-codellama-34b-slim"
+spec:
+  tfReplicaSpecs:
+    Worker:
+      replicas: 1
+      restartPolicy: Never
+      template:
+        metadata:
+          annotations:
+            sidecar.istio.io/inject: "false"
+        spec:
+          volumes:
+            - name: shared-data
+              emptyDir: {}
+            - name: shm-volume
+              emptyDir:
+                medium: Memory
+          containers:
+            - name: tensorflow
+              image: ml-registry.clive.tk/ai/llm-finetune:12622
+              volumeMounts:
+                - name: shared-data
+                  mountPath: /mnt
+                  mountPropagation: HostToContainer
+                - name: shm-volume
+                  mountPath: /dev/shm
+              imagePullPolicy: Always
+              env:
+                - name: DEKUBE_ENTRYPOINT
+                  value: "/mnt/s3fs/scripts/C-codellama-34b/entrypoint.sh"
+                - name: DEKUBE_MINIO_HOST
+                  value: "https://ml-storage.clive.tk:9000"
+                - name: MAX_STEPS
+                  value: "21"
+                - name: NUM_TRAIN_EPOCHS
+                  value: "1"
+                - name: iRESULTwrk
+                  value: "/mnt/wrk"
+              resources:
+                limits:
+                  nvidia.com/gpu: 2
