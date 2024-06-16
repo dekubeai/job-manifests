@@ -3,7 +3,7 @@
 apiVersion: "kubeflow.org/v1"
 kind: "TFJob"
 metadata:
-  name: "b-codellama-34b-slim"
+  name: "a-baichuan2-13b"
 spec:
   tfReplicaSpecs:
     Worker:
@@ -22,7 +22,7 @@ spec:
                 medium: Memory
           containers:
             - name: tensorflow
-              image: ml-registry.clive.tk/ai/llm-finetune:12622
+              image: ml-registry.clive.tk/ai/llm-finetune:12836
               volumeMounts:
                 - name: shared-data
                   mountPath: /mnt
@@ -32,15 +32,15 @@ spec:
               imagePullPolicy: Always
               env:
                 - name: DEKUBE_ENTRYPOINT
-                  value: "/mnt/s3fs/scripts/B-codellama-34b/entrypoint.sh"
+                  value: "/mnt/dekube/scripts/A-baichuan2-13b/entrypoint.sh"
                 - name: DEKUBE_MINIO_HOST
                   value: "https://ml-storage.clive.tk:9000"
                 - name: MAX_STEPS
-                  value: "21"
+                  value: "5"
                 - name: NUM_TRAIN_EPOCHS
                   value: "1"
                 - name: iRESULTwrk
                   value: "/mnt/wrk"
               resources:
                 limits:
-                  nvidia.com/gpu: 2
+                  nvidia.com/gpu: 5

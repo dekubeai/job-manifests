@@ -37,9 +37,10 @@ export NCCL_IB_DISABLE=1
 export NCCL_IGNORE_DISABLED_P2P=1
 export NCCL_DEBUG=INFO
 
+export NCCL_SOCKET_IFNAME=lo
+
 mkdir -p ${HOME}/.cache/huggingface/accelerate
 idcfg="${HOME}/.cache/huggingface/accelerate/default_config.yaml"
-
 
 ##################################################
 envsubst <<EOF > ${idcfg}

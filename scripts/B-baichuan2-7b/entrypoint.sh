@@ -37,6 +37,7 @@ export NCCL_IB_DISABLE=1
 export NCCL_IGNORE_DISABLED_P2P=1
 export NCCL_DEBUG=INFO
 
+export NCCL_SOCKET_IFNAME=lo
 
 cp /mnt/s3fs/scripts/B-baichuan2-7b/fine-tune.py ${iRESULTwrk}
 cp /mnt/s3fs/scripts/B-baichuan2-7b/ds_config.json ${iRESULTwrk}

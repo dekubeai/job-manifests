@@ -3,11 +3,11 @@
 apiVersion: "kubeflow.org/v1"
 kind: "TFJob"
 metadata:
-  name: "b-llama2-7b-slim"
+  name: "b-llama2-7b-multinode"
 spec:
   tfReplicaSpecs:
     Worker:
-      replicas: 1
+      replicas: 2
       restartPolicy: Never
       template:
         metadata:
@@ -22,7 +22,7 @@ spec:
                 medium: Memory
           containers:
             - name: tensorflow
-              image: ml-registry.clive.tk/ai/llm-finetune:12622
+              image: registry.i.sumus.work/ai/env:llama2-ft-test-wdog
               volumeMounts:
                 - name: shared-data
                   mountPath: /mnt
@@ -32,7 +32,7 @@ spec:
               imagePullPolicy: Always
               env:
                 - name: DEKUBE_ENTRYPOINT
-                  value: "/mnt/s3fs/scripts/B-llama2-7b/entrypoint.sh"
+                  value: "/mnt/s3fs/scripts/B-llama2-7b-multinode/entrypoint.sh"
                 - name: DEKUBE_MINIO_HOST
                   value: "https://ml-storage.clive.tk:9000"
                 - name: MAX_STEPS
