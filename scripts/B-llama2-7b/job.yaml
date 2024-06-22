@@ -36,7 +36,7 @@ spec:
                 - name: DEKUBE_MINIO_HOST
                   value: "https://ml-storage.clive.tk:9000"
                 - name: MAX_STEPS
-                  value: "21"
+                  value: "200"
                 - name: NUM_TRAIN_EPOCHS
                   value: "1"
                 - name: iRESULTwrk
